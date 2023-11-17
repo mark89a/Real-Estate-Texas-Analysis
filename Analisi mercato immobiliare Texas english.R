@@ -42,33 +42,33 @@ sum(volume)*1000000
 
 #Skewness and kurtosis
 #sales
-View(table(sales))#la moda è 124....192.3>175.5>124, ossia MEDIA>MEDIANA>MODA, quindi sappiamo già che la
-                  #distribuzione delle vendite ha un'asimmetria positiva
-skewness(sales)   #0.718  distribuzione asimmetrica positiva
-kurtosis(sales)   #2.68   distribuzione leptocurtica
+View(table(sales))#moda is 124....192.3>175.5>124, MEDIA>MEDIANA>MODA, then we know that
+                  #sale's distribution has a positive skewness
+skewness(sales)   #0.718  positive asymmetric distribution
+kurtosis(sales)   #2.68   leptokurtic distribution
 
 #median_price
-View(table(median_price)) #la moda è 130.000...132.665<134.500<
-skewness(median_price)#-0.364 distribuzione asimmetrica negativa
-kurtosis(median_price) #2.377 distribuzione leptocurtica
+View(table(median_price)) # moda is 130.000...132.665<134.500<
+skewness(median_price)#-0.364 negative asymmetric distribution
+kurtosis(median_price) #2.377 leptokurtic distribution
 
 #volume
-View(table(volume)) #la moda è 14.003...31.005>27.06>14.003
-skewness(volume)    #0.884 distribuzione asimmetrica positiva
-kurtosis(volume)    #3.17  distribuzione leptocurtica
+View(table(volume)) # moda is 14.003...31.005>27.06>14.003
+skewness(volume)    #0.884 positive asymmetric distribution
+kurtosis(volume)    #3.17  leptokurtic distribution
 
 #listings
-View(table(listings))  #la moda è 1.581.....1.738>1.618>1.581
-skewness(listings)  #0.649 distribuzione asimmetrica positiva
-kurtosis(listings)  #2.2 distribuzione leptocuritca
+View(table(listings))  # moda is 1.581.....1.738>1.618>1.581
+skewness(listings)  #0.649 positive asymmetric distribution
+kurtosis(listings)  #2.2 leptokurtic distribution
 
 #months_inventory
-View(table(months_inventory)) #la moda è 8.1.....9.19>8.95>8.1
-skewness(months_inventory)  #0.04  Distribuzione asimmetrica positiva
-kurtosis(months_inventory)  #2.82  distribuzione leptocurtica
+View(table(months_inventory)) # moda is 8.1.....9.19>8.95>8.1
+skewness(months_inventory)  #0.04  positive asymmetric distribution
+kurtosis(months_inventory)  #2.82  leptokurtic distribution
 
 #Gini di city
-gini.index(city)         #l'indice di Gini per la variabile City è pari a 1, quindi c'è massima eterogenità
+gini.index(city)         #Gini index for City is 1, therefore there is maximum heterogeneity
 
 #___________________________________________________________________________________________________
 #median_price ANALYSIS
@@ -76,20 +76,20 @@ gini.index(city)         #l'indice di Gini per la variabile City è pari a 1, qu
 #for the variable median_price, I divide in 4 classes to find the class with the highest
 #absolute frequency
 interruzioni_median_price=c( 50000, 100000, 150000, max(median_price))
-etichette_median_price=c( "tra 50.000 e 100.000", 
-                         "tra 100.000 e 150.000", "tra 150.000 e 180.000")
+etichette_median_price=c( "50.000 - 100.000", 
+                         "100.000 - 150.000", "150.000 - 180.000")
 median_price_cl=cut(median_price, breaks = interruzioni_median_price, labels = etichette_median_price)
 
-table(median_price_cl)    #la classe modale è quella compresa tra 100.000 e 150.000, con 154 osservazioni
+table(median_price_cl)    #the modal class is between 100.000 and 150.000, with 154 observations
 
 ggplot(data = realestate_texas)+
   geom_bar(aes(x=median_price_cl),
            stat = "count",
            col="black",
            fill="lightblue")+
-  labs(title = "Distribuzione delle classi del prezzo mediano",
-       x="Prezzo mediano",
-       y="Numero di osservazioni rilevate")+
+  labs(title = "Median price classes distribution",
+       x="Median price",
+       y="Number of observations")+
   scale_y_continuous(breaks=seq(0, 160, 10))
 
 
@@ -108,16 +108,16 @@ distr_freq_median_price
 median(median_price)
 mean(median_price)   #132.655,4
 range(median_price)
-range_median_price=max(median_price)-min(median_price) #il range di median_price è 106.200 dollari
-interquartile_range_median_price=IQR(median_price)  #IQR è uguale a 32750
+range_median_price=max(median_price)-min(median_price) # median_price range is 106.200 dollars
+interquartile_range_median_price=IQR(median_price)  #IQR is 32750
 var(median_price)   #513.572.983
 sd(median_price)    #22.662,15
 
 #Gini index
 
 gini_median_price=gini.index(median_price)
-gini_median_price                          #l'indice di Gini di median_price è pari a 0.99, quindi 
-                                           #la variabile è molto eterogenea
+gini_median_price                          # median_price Gini index is 0.99,  
+                                           #the variable is very heterogeneous
 
 
 #______________________________________________________________________________________________________
@@ -128,12 +128,12 @@ mean_price=(realestate_texas$volume/realestate_texas$sales)*1000000
 realestate_texas$mean_price=mean_price
 max(mean_price)
 min(mean_price)
-interruzioni_mean_price=c(0, 100000, 150000, 200000, max(mean_price))
-etichette_mean_price=c("sotto i 100.000", "tra 100.000 e 150.000", 
-                       "tra 150.000 e 200.000", "sopra i 200.000")
-mean_price_cl=cut(mean_price, breaks = interruzioni_mean_price, labels = etichette_mean_price)
+range_mean_price=c(0, 100000, 150000, 200000, max(mean_price))
+labels_mean_price=c("under 100.000", "100.000 - 150.000", 
+                       "150.000 - 200.000", "over 200.000")
+mean_price_cl=cut(mean_price, breaks = range_mean_price, labels = labels_mean_price)
 
-table(mean_price_cl)    #la classe modale è quella compresa tra 150.000 e 200.000, con 127 osservazioni
+table(mean_price_cl)    #modal class is 150.000 - 200.000, with 127 obserations
 
 #relative frequences, cumulative and relative cumulative
 n=length(mean_price)
